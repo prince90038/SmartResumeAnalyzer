@@ -1,0 +1,35 @@
+Job description
+Location: Bangalore
+Experience: 4-7 yrs
+Role: SSE - Backend Developer
+
+A Series D funded firm delivering AI-native SaaS solutions and consulting services that help companies maximize profitability and customer satisfaction through deeper data insights and predictive analytics. With a fully integrated, end-to-end platform for planning, forecasting, merchandising, pricing, and promotions, we empower companies to make smarter decisions based on real-time insights rather than relying on last years inputs to forecast and plan this years business. Powered by over one million machine learning models, we've been leading AI innovation for a decade, setting new benchmarks in forecasting, planning, and operational excellence across the retail, grocery, manufacturing, and CPG sectors. In 2025, we're at the forefront of the Agentic AI revolution, delivering autonomous solutions that enable businesses to adapt in real time, optimize operations, and drive profitability without manual intervention.
+
+What lands you this role:
+Expertise in Python application development
+Expertise in at least one of Django, Flask or FastAPI
+5+ years of Python experience
+Familiarity with Object Relational Mapping libraries and ability to integrate with multiple data sources into one system
+Understanding of limitations of Python and Multi Process Architecture
+Understanding of Design Principles of Scalable Applications
+Good object-oriented design skills and knowledge of design patterns
+Knowledge of key-value stores, caching, search, messaging queues
+
+Key Responsibilities:
+Design, develop, and maintain scalable backend applications and REST APIs using Python, FastAPI, Flask, or Django.
+Build and optimize microservices, database models, and data processing pipelines for high-performance enterprise applications.
+Integrate multiple data sources, third-party APIs, and messaging systems such as Kafka or RabbitMQ.
+Implement caching, asynchronous processing, and performance optimization techniques to ensure system scalability and reliability.
+Collaborate with cross-functional teams to translate business requirements into robust technical solutions and participate in code reviews.
+Develop automated tests, troubleshoot production issues, and contribute to CI/CD pipelines and cloud-based deployments.
+
+What we Offer:
+An opportunity to develop some of the best enterprise SaaS products to be built out of India
+Opportunities to quench your thirst for problem-solving, experimenting, learning, and implementing innovative solutions
+A flat, collegial work environment, with a work hard, play hard attitude
+A platform for rapid growth if you are willing to try new things without fear of failure
+
+Designation:Backend Engineer (Python)
+Location:Bengaluru
+Role:Backend Engineer (Python)
+Industry:Software Product
