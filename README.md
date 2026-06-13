@@ -11,6 +11,32 @@ SmartResumeAnalyzer is a Streamlit app that extracts resume content, analyzes a 
 - Gap analysis and improvement suggestions
 - Streamlit dashboard for reviewing results
 
+## Screenshots
+
+### Upload Resume
+
+![Upload Resume](images/upload_pdf.png)
+
+### Overall Score
+
+![Overall Score](images/overall_score.png)
+
+### Experience Match
+
+![Experience Match](images/experience_match.png)
+
+### Gap Analysis
+
+![Gap Analysis](images/gap_analysis.png)
+
+### Skill Recommendations
+
+![Skill Recommendations](images/skill_recommendations.png)
+
+### Project Suggestions
+
+![Project Suggestions](images/project_suggestions.png)
+
 ## Project Structure
 
 - `main.py` - orchestration entry point
