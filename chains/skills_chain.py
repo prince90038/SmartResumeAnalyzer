@@ -1,9 +1,12 @@
+"""LangChain prompt for extracting technical skills from a resume section."""
+
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from config import get_llm
 from schemas.pydantic_models import SkillsOutput
 
 def get_skills_chain():
+    """Build the chain that extracts only technical skills."""
     parser = PydanticOutputParser(pydantic_object=SkillsOutput)
     fmt = parser.get_format_instructions()
 

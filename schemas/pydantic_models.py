@@ -1,5 +1,8 @@
-from pydantic import BaseModel, Field
 from typing import List
+
+"""Pydantic schemas used to validate extracted resume and JD data."""
+
+from pydantic import BaseModel, Field
 
 
 class ExperienceItem(BaseModel):
@@ -12,7 +15,7 @@ class ExperienceItem(BaseModel):
 class ProjectItem(BaseModel):
     name: str = ""
     description: str = ""
-    technologies: List[str] = []
+    technologies: List[str] = Field(default_factory=list)
 
 
 class EducationItem(BaseModel):
@@ -29,44 +32,51 @@ class ResumeSections(BaseModel):
 
 
 class SkillsOutput(BaseModel):
-    skills: List[str]
+    skills: List[str] = Field(default_factory=list)
 
 
 class ExperienceOutput(BaseModel):
-    experience: List[ExperienceItem]
+    experience: List[ExperienceItem] = Field(default_factory=list)
 
 
 class ProjectsOutput(BaseModel):
-    projects: List[ProjectItem]
+    projects: List[ProjectItem] = Field(default_factory=list)
 
 
 class EducationOutput(BaseModel):
-    education: List[EducationItem]
+    education: List[EducationItem] = Field(default_factory=list)
 
 
 class JDOutput(BaseModel):
-    required_skills: List[str]
-    optional_skills: List[str]
-    experience_required: str
-    responsibilities: List[str]
+    required_skills: List[str] = Field(default_factory=list)
+    optional_skills: List[str] = Field(default_factory=list)
+    experience_required: str = ""
+    responsibilities: List[str] = Field(default_factory=list)
 
 
 class NormalizedSkills(BaseModel):
-    skills: List[str]
+    skills: List[str] = Field(default_factory=list)
 
 
 class ResumeModel(BaseModel):
-    skills: List[str]
-    experience: List[ExperienceItem]
-    projects: List[ProjectItem]
-    education: List[EducationItem]
+    skills: List[str] = Field(default_factory=list)
+    experience: List[ExperienceItem] = Field(default_factory=list)
+    projects: List[ProjectItem] = Field(default_factory=list)
+    education: List[EducationItem] = Field(default_factory=list)
+
 
 class ExperienceMatch(BaseModel):
-    matched_areas: str
-    missing_areas: str
-    relevance_score: float = Field(..., description="Score between 0 and 1")
+    matched_areas: List[str] = Field(default_factory=list)
+    missing_areas: List[str] = Field(default_factory=list)
+    relevance_score: float = Field(
+        default=0,
+        ge=0,
+        le=1,
+        description="Score between 0 and 1",
+    )
+
 
 class SuggestionOutput(BaseModel):
-    resume_improvements: List[str]
-    skill_recommendations: List[str]
-    project_suggestions: List[str]
+    resume_improvements: List[str] = Field(default_factory=list)
+    skill_recommendations: List[str] = Field(default_factory=list)
+    project_suggestions: List[str] = Field(default_factory=list)

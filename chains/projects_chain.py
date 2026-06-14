@@ -1,9 +1,12 @@
+"""LangChain prompt for extracting structured project entries."""
+
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from config import get_llm
 from schemas.pydantic_models import ProjectsOutput
 
 def get_projects_chain():
+    """Build the chain that extracts project name, description, and technologies."""
     parser = PydanticOutputParser(pydantic_object=ProjectsOutput)
     proj_format = parser.get_format_instructions()
 

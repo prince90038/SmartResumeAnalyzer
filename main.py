@@ -1,42 +1,38 @@
+"""Command-line entry point for running resume analysis outside the UI."""
+
+import argparse
 import json
-from pipeline.resume_pipeline import process_resume, run_matching, run_scoring, run_analysis
-from pipeline.jd_pipeline import process_jd
+from pathlib import Path
+
+from pipeline.analyzer import analyze_resume
+
+
+def parse_args():
+    """Parse command-line arguments for the CLI analyzer."""
+    parser = argparse.ArgumentParser(
+        description="Analyze a PDF resume against a job description."
+    )
+    parser.add_argument("resume", type=Path, help="Path to the resume PDF")
+    parser.add_argument("job_description", type=Path, help="Path to the job description")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Optional JSON output path; prints to stdout when omitted",
+    )
+    return parser.parse_args()
+
 
 if __name__ == "__main__":
-    # resume = process_resume("data/input/resume.pdf")
-    #
-    # with open("data/output/resume.json", "w") as f:
-    #     json.dump(resume, f, indent=2)
-    #
-    # jd_text = open("data/input/jd.txt").read()
-    # jd = process_jd(jd_text)
-    #
-    # with open("data/output/jd.json", "w") as f:
-    #     json.dump(jd, f, indent=2)
-    #
-    # print("Phase 1 Done")
+    args = parse_args()
+    result = analyze_resume(
+        str(args.resume),
+        args.job_description.read_text(encoding="utf-8"),
+    )
+    rendered = json.dumps(result, indent=2, ensure_ascii=False)
 
-    # Run only if Phase 1 not executed before, else read from output directory
-    # resume = process_resume("data/input/resume.pdf")
-    # jd = process_jd(open("data/input/jd.txt").read())
-
-    # Read resume and jd JSON from output directory
-    with open("data/output/resume.json", "r") as f:
-        resume = json.load(f)
-    with open("data/output/jd.json", "r") as f:
-        jd = json.load(f)
-
-    # result = run_matching(resume, jd)
-    # print("Phase 2 Done")
-    #
-    # result["score"] = run_scoring(result)
-    # print("Phase 3 Done")
-
-    with open("data/output/match.json", "r") as f:
-        result = json.load(f)
-
-    result["analysis"] = run_analysis(resume, jd, result)
-    print("Phase 4 Done")
-
-    with open("data/output/match.json", "w") as f:
-        json.dump(result, f, indent=2)
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered, encoding="utf-8")
+        print(f"Analysis written to {args.output}")
+    else:
+        print(rendered)

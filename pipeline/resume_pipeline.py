@@ -1,3 +1,5 @@
+"""Pipeline helpers for extracting, matching, scoring, and analyzing resumes."""
+
 from pydantic import ValidationError
 
 from utils.pdf_loader import extract_text
@@ -23,6 +25,7 @@ from analysis.suggestion_generator import generate_suggestions
 
 # ---------------- SAFE INVOKE ----------------
 def safe_invoke(chain, input_data, step_name=""):
+    """Invoke a chain safely and return None if the step fails."""
     try:
         return chain.invoke(input_data)
     except Exception as e:
@@ -32,8 +35,13 @@ def safe_invoke(chain, input_data, step_name=""):
 
 # ---------------- MAIN PIPELINE ----------------
 def process_resume(pdf_path: str):
+    """Extract a resume PDF and validate it against the resume schema."""
     # Step 1: Extract + Clean
     raw = extract_text(pdf_path)
+    if not raw.strip():
+        raise ValueError(
+            "No readable text was found in the PDF. Scanned resumes require OCR."
+        )
     clean = clean_text(raw)
 
     # Step 2: Segment
@@ -84,17 +92,21 @@ def process_resume(pdf_path: str):
         print(e)
         raise
 
-    return validated.dict()
+    return validated.model_dump()
 
 
 def run_matching(resume_json, jd_json):
+    """Match resume content against the structured job description."""
     skill_result = match_skills(
         jd_json.get("required_skills", []),
         resume_json
     )
 
+    experience_targets = (
+        jd_json.get("responsibilities") or jd_json.get("required_skills", [])
+    )
     experience_result = match_experience(
-        jd_json.get("responsibilities", []),
+        experience_targets,
         resume_json.get("experience", [])
     ).model_dump()
 
@@ -105,6 +117,7 @@ def run_matching(resume_json, jd_json):
 
 
 def run_scoring(match_result):
+    """Combine skill and experience match results into a final score."""
     skill_score = score_skills(match_result["skills"])
     exp_score = score_experience(match_result["experience"])
 
@@ -123,6 +136,7 @@ def run_scoring(match_result):
 
 
 def run_analysis(resume_json, jd_json, match_result):
+    """Generate gap analysis and resume improvement suggestions."""
     gap_data = analyze_skill_gaps(match_result, jd_json)
 
     suggestions = generate_suggestions(
@@ -133,5 +147,5 @@ def run_analysis(resume_json, jd_json, match_result):
 
     return {
         "gaps": gap_data,
-        "suggestions": suggestions.dict()
+        "suggestions": suggestions.model_dump()
     }

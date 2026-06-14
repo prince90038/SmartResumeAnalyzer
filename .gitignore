@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -225,4 +224,5 @@ __pycache__/
 how_to_run.txt
 data/input/resume.pdf
 temp_resume.pdf
+temp_resume_*.pdf
 data/output/*.json

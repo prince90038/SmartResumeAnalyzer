@@ -1,4 +1,8 @@
+"""Derive critical and secondary skill gaps from matching results."""
+
+
 def analyze_skill_gaps(match_result, jd_json):
+    """Group missing and partial skills into priority gap buckets."""
     missing = match_result["skills"].get("missing", [])
     partial = match_result["skills"].get("partial", [])
 

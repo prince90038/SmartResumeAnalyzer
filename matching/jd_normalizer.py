@@ -1,9 +1,12 @@
+"""LLM chain that normalizes job-description text into atomic skills."""
+
 from langchain_core.prompts import PromptTemplate
-from langchain_classic.output_parsers import PydanticOutputParser
+from langchain_core.output_parsers import PydanticOutputParser
 from config import get_llm
 from schemas.pydantic_models import NormalizedSkills
 
 def get_jd_normalizer_chain():
+    """Build the chain that expands and cleans JD skill requirements."""
     parser = PydanticOutputParser(pydantic_object=NormalizedSkills)
     jd_normalize_format = parser.get_format_instructions()
 

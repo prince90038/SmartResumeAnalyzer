@@ -1,3 +1,5 @@
+"""Pipeline helpers for extracting and validating structured job descriptions."""
+
 from chains.jd_chain import get_jd_chain
 from schemas.pydantic_models import JDOutput
 
@@ -6,6 +8,7 @@ from pydantic import ValidationError
 
 # ---------------- SAFE INVOKE ----------------
 def safe_invoke(chain, input_data, step_name=""):
+    """Invoke a chain safely and return None if the step fails."""
     try:
         return chain.invoke(input_data)
     except Exception as e:
@@ -15,6 +18,7 @@ def safe_invoke(chain, input_data, step_name=""):
 
 # ---------------- MAIN JD PIPELINE ----------------
 def process_jd(jd_text: str):
+    """Parse raw job-description text into the validated JD schema."""
     jd_chain = get_jd_chain()
 
     jd_obj = safe_invoke(
@@ -42,4 +46,4 @@ def process_jd(jd_text: str):
         print(e)
         raise
 
-    return validated.dict()
+    return validated.model_dump()

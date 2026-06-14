@@ -1,6 +1,6 @@
 # SmartResumeAnalyzer
 
-SmartResumeAnalyzer is a Streamlit app that extracts resume content, analyzes a job description, matches skills and experience, and presents an overall fit score with gaps and suggestions.
+SmartResumeAnalyzer is a Streamlit app that uses Hugging Face models to extract resume content, analyze a job description, match skills and experience, and present an overall fit score with gaps and suggestions.
 
 ## Features
 
@@ -49,24 +49,46 @@ SmartResumeAnalyzer is a Streamlit app that extracts resume content, analyzes a 
 
 ## Prerequisites
 
-- Python 3.14 or compatible Python 3.x version
+- Python 3.11-3.13 recommended (Python 3.14 currently emits a LangChain compatibility warning)
 - A virtual environment is recommended
-- API keys configured in `.env` if required by your LLM setup
+- A Hugging Face access token for hosted inference, or enough local resources to run a Transformers model
 
 ## Setup
 
 From the project root:
 
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 $env:PYTHONPATH="."
+Copy-Item .env.example .env
 ```
 
-Install the required packages for the project if they are not already available in your environment.
+For hosted inference, set `HF_TOKEN` in `.env`. The default model is
+`Qwen/Qwen2.5-7B-Instruct`, accessed through Hugging Face's conversational
+chat API.
+
+To run without an inference API, set `HF_BACKEND=local`. Local mode downloads
+`Qwen/Qwen2.5-1.5B-Instruct` on first use and runs on CPU by default. Set
+`HF_LOCAL_DEVICE=0` to use the first compatible GPU.
 
 ## Run the App
 
 ```powershell
 streamlit run ui/app.py
+```
+
+The same pipeline can be run from the command line:
+
+```powershell
+python main.py data/input/resume.pdf data/input/jd.txt --output data/output/match.json
+```
+
+## Tests
+
+```powershell
+python -m unittest discover -s tests -v
 ```
 
 ## Usage
@@ -78,5 +100,6 @@ streamlit run ui/app.py
 
 ## Notes
 
-- `how_to_run.txt` is kept as a local helper file and is not meant to be committed.
 - Generated output files in `data/output/` are ignored from GitHub pushes.
+- Uploaded resumes are written to unique temporary files and removed after analysis.
+- Model selection and generation limits can be changed through the variables documented in `.env.example`.

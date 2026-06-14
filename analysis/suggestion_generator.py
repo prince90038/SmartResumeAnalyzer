@@ -1,10 +1,13 @@
+"""Generate resume improvement suggestions from gaps and job requirements."""
+
 from langchain_core.prompts import PromptTemplate
-from langchain_classic.output_parsers import PydanticOutputParser
+from langchain_core.output_parsers import PydanticOutputParser
 from config import get_llm
 from schemas.pydantic_models import SuggestionOutput
 
 
 def get_suggestion_chain():
+    """Build the chain that turns analysis gaps into actionable suggestions."""
     parser = PydanticOutputParser(pydantic_object=SuggestionOutput)
 
     prompt = PromptTemplate(
@@ -40,6 +43,7 @@ Resume Skills:
 
 
 def generate_suggestions(jd_json, resume_json, gap_data):
+    """Invoke the suggestion chain with job, resume, and gap context."""
     chain = get_suggestion_chain()
 
     return chain.invoke({
