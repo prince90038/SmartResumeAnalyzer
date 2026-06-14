@@ -1,6 +1,6 @@
 # SmartResumeAnalyzer
 
-SmartResumeAnalyzer is a Streamlit app that uses Hugging Face models to extract resume content, analyze a job description, match skills and experience, and present an overall fit score with gaps and suggestions.
+SmartResumeAnalyzer is a Streamlit app that uses Gemini for text generation and Hugging Face embeddings for semantic matching to extract resume content, analyze a job description, match skills and experience, and present an overall fit score with gaps and suggestions.
 
 ## Features
 
@@ -51,7 +51,8 @@ SmartResumeAnalyzer is a Streamlit app that uses Hugging Face models to extract 
 
 - Python 3.11-3.13 recommended (Python 3.14 currently emits a LangChain compatibility warning)
 - A virtual environment is recommended
-- A Hugging Face access token for hosted inference, or enough local resources to run a Transformers model
+- A Google API key for Gemini text generation
+- Optional Hugging Face access for embedding downloads if your environment does not already cache the model
 
 ## Setup
 
@@ -65,13 +66,8 @@ $env:PYTHONPATH="."
 Copy-Item .env.example .env
 ```
 
-For hosted inference, set `HF_TOKEN` in `.env`. The default model is
-`Qwen/Qwen2.5-7B-Instruct`, accessed through Hugging Face's conversational
-chat API.
-
-To run without an inference API, set `HF_BACKEND=local`. Local mode downloads
-`Qwen/Qwen2.5-1.5B-Instruct` on first use and runs on CPU by default. Set
-`HF_LOCAL_DEVICE=0` to use the first compatible GPU.
+Set `GOOGLE_API_KEY` in `.env` so Gemini can be used for text extraction,
+matching, and suggestion generation.
 
 ## Run the App
 
@@ -102,4 +98,4 @@ python -m unittest discover -s tests -v
 
 - Generated output files in `data/output/` are ignored from GitHub pushes.
 - Uploaded resumes are written to unique temporary files and removed after analysis.
-- Model selection and generation limits can be changed through the variables documented in `.env.example`.
+- Model selection and generation settings can be changed through the variables documented in `.env.example`.
